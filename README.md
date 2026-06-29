@@ -19,7 +19,7 @@ Fullstack-приложение для учёта внутренних заяво
 * SQLite
 * Pydantic
 * JWT
-* Swagger / OpenAPI
+* Swagger
 
 ### Frontend
 
