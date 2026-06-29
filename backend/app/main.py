@@ -1,4 +1,7 @@
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
+
+from app.api.exception_handlers import validation_exception_handler
 
 from app.api.docs import api_description, tags_metadata
 from app.api.router import api_router
@@ -16,6 +19,11 @@ def create_app() -> FastAPI:
         redoc_url="/redoc",
         openapi_url="/openapi.json",
         lifespan=lifespan,
+    )
+
+    app.add_exception_handler(
+        RequestValidationError,
+        validation_exception_handler,
     )
 
     app.include_router(api_router)

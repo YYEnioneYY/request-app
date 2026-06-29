@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.models.request import RequestPriority, RequestStatus
 
@@ -18,9 +18,12 @@ class SortOrder(str, Enum):
 
 
 class RequestCreate(BaseModel):
-    title: str = Field(min_length=3, max_length=120)
+    title: str = Field(..., min_length=3, max_length=120)
     description: str | None = Field(default=None, max_length=1000)
-    priority: RequestPriority = RequestPriority.NORMAL
+    status: RequestStatus = Field(...)
+    priority: RequestPriority = Field(...)
+
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class RequestUpdateStatus(BaseModel):

@@ -22,6 +22,7 @@ class RequestService:
         return self.repository.create(
             title=request_data.title,
             description=request_data.description,
+            status=request_data.status,
             priority=request_data.priority,
         )
 
@@ -81,17 +82,17 @@ class RequestService:
     
     def delete_request(self, request_id: str) -> None:
         request = self.repository.get_by_id(request_id)
-    
+
         if request is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Заявка не найдена.",
             )
-    
+
         if request.status == RequestStatus.DONE:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Заявку в статусе done нельзя удалить.",
             )
-    
+
         self.repository.delete(request)

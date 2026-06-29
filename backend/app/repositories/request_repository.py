@@ -13,18 +13,20 @@ class RequestRepository:
         self,
         title: str,
         description: str | None,
+        status: RequestStatus,
         priority: RequestPriority,
     ) -> RequestModel:
         request = RequestModel(
             title=title,
             description=description,
+            status=status,
             priority=priority,
         )
-
+    
         self.db.add(request)
         self.db.commit()
         self.db.refresh(request)
-
+    
         return request
 
     def get_by_id(self, request_id: str) -> RequestModel | None:
